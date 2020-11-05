@@ -26,7 +26,6 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())//加载过滤指定包下的所有文件
                 .build();
     }
-
     @Bean
     public Docket docket1() {
         //指定访问地址 扫描的controler包，生成文档
@@ -40,7 +39,6 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())//加载过滤指定包下的所有文件
                 .build();
     }
-
     private ApiInfo apiInfo() {
         //接口文档的标题，介绍版本号等，
         return new ApiInfoBuilder()

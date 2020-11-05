@@ -31,7 +31,6 @@ public class NumberUtils {
 
     /**
      * 将一个小数精确到指定位数
-     *
      * @param num
      * @param scale
      * @return

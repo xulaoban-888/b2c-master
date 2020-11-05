@@ -28,11 +28,12 @@ public class IdWorker {
     private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
     /* 上次生产id时间戳 */
     private static long lastTimestamp = -1L;
+    // 0，并发控制
+    private long sequence = 0L;
+
     private final long workerId;
     // 数据标识id部分
     private final long datacenterId;
-    // 0，并发控制
-    private long sequence = 0L;
 
     public IdWorker() {
         this.datacenterId = getDatacenterId(maxDatacenterId);
@@ -76,30 +77,6 @@ public class IdWorker {
     }
 
     /**
-     * <p>
-     * 数据标识id部分
-     * </p>
-     */
-    protected static long getDatacenterId(long maxDatacenterId) {
-        long id = 0L;
-        try {
-            InetAddress ip = InetAddress.getLocalHost();
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            if (network == null) {
-                id = 1L;
-            } else {
-                byte[] mac = network.getHardwareAddress();
-                id = ((0x000000FF & (long) mac[mac.length - 1])
-                        | (0x0000FF00 & (((long) mac[mac.length - 2]) << 8))) >> 6;
-                id = id % (maxDatacenterId + 1);
-            }
-        } catch (Exception e) {
-            System.out.println(" getDatacenterId: " + e.getMessage());
-        }
-        return id;
-    }
-
-    /**
      * 获取下一个ID
      *
      * @return
@@ -139,6 +116,30 @@ public class IdWorker {
 
     private long timeGen() {
         return System.currentTimeMillis();
+    }
+
+    /**
+     * <p>
+     * 数据标识id部分
+     * </p>
+     */
+    protected static long getDatacenterId(long maxDatacenterId) {
+        long id = 0L;
+        try {
+            InetAddress ip = InetAddress.getLocalHost();
+            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+            if (network == null) {
+                id = 1L;
+            } else {
+                byte[] mac = network.getHardwareAddress();
+                id = ((0x000000FF & (long) mac[mac.length - 1])
+                        | (0x0000FF00 & (((long) mac[mac.length - 2]) << 8))) >> 6;
+                id = id % (maxDatacenterId + 1);
+            }
+        } catch (Exception e) {
+            System.out.println(" getDatacenterId: " + e.getMessage());
+        }
+        return id;
     }
 
 

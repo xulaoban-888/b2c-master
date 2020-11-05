@@ -1,24 +1,41 @@
 package com.mr.item.service;
 
+
+import com.mr.item.mapper.SkuMapper;
+import com.mr.item.mapper.SkusMapper;
 import com.mr.item.mapper.SpecGroupMapper;
+import com.mr.pojo.Sku;
+import com.mr.pojo.Skus;
 import com.mr.pojo.SpecGroup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.util.List;
+
 
 @Service
 public class SpecGroupService {
-    @Autowired
+    @Resource
     private SpecGroupMapper specGroupMapper;
+
+    @Resource
+    private SkuMapper skuMapper;
+
+    @Resource
+    private SkusMapper skusMapper;
 
     //查询
     public List<SpecGroup> querySpecGroup(Long cid) {
+         /*第一种方法
+        SpecGroup t = new SpecGroup();
+        t.setCid(cid);
+        return this.specGroupMapper.select(t);*/
 
-        //创建过滤条件类
+        //根据分类查詢规模组
+        //创建过滤条件类  第二种方法;
         Example example = new Example(SpecGroup.class);
 
         //通过过滤条件类,构建实例,实体字段和参数相等
@@ -55,8 +72,6 @@ public class SpecGroupService {
     }
 
 
-
-/*
     public void addCollect(Long skuId) {
         if (skuId != 0 && skuId != null) {
             Sku sku = skuMapper.selectByPrimaryKey(skuId);
@@ -75,5 +90,7 @@ public class SpecGroupService {
             System.out.println(sku);
             skusMapper.insertSelective(skus);
         }
-    }*/
+
+
+    }
 }

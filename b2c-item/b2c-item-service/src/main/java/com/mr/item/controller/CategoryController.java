@@ -16,48 +16,54 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryService service;
 
-    @GetMapping("list")
-    public ResponseEntity queryByParentId(@RequestParam("pid") Long pid) {
+    //查询
+    @GetMapping(value = "list")
+    public ResponseEntity<List<Category>> queryCategoryList(@RequestParam(value = "pid", defaultValue = "0") Long pid) {
 
-        List<Category> list = categoryService.queryListByParent(pid);
-        if (list == null || list.size() == 0) {
+        List<Category> list = this.service.queryByList(pid);
+        if (list == null && list.size() == 0) {
             throw new MrException(ExceptionEnums.CATEGORY_CANNOT_BE_NULL);
         }
+        //相当于 ResponseEntity.status(200).body(list)
         return ResponseEntity.ok(list);
     }
 
-    @DeleteMapping("delete")
-    public void deleteCategory(Long id) {
+    //删除
+    @DeleteMapping(value = "remove")
+    public ResponseEntity removeCategory(@RequestParam(value = "id") Long id) {
 
-        categoryService.deleteCategory(id);
+        return this.service.remove(id);
     }
 
-    @PostMapping("save")
-    public ResponseEntity<Void> addCategory(@RequestBody Category category) {
-
-        categoryService.save(category);
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
-
-    //修改回显
+    //修改回显2
 
     @GetMapping(value = "findById")
     public ResponseEntity<Category> findById(@RequestParam("id") Long id) {
-        return this.categoryService.findById(id);
+        return this.service.findById(id);
     }
 
     //修改
     @PutMapping(value = "save")
     public ResponseEntity<Category> editCategory(@RequestBody Category category) {
-        return this.categoryService.save(category);
+        return this.service.save(category);
     }
 
-    //通过id查询品牌下拥有的分类
+    //增加
+    @PostMapping(value = "save")
+    public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
+        return this.service.save(category);
+    }
+
+    //查询品牌下拥有的分类
+
+    /**
+     * 通过品牌id查询分类数据(用于品牌新增,把品牌新增到分类下面)
+     */
     @GetMapping(value = "queryCategoryBrand/{bid}")
     public ResponseEntity<List<Category>> queryCategoryBrand(@PathVariable("bid") Long bid) {
-        List<Category> list = categoryService.queryCategoryByBid(bid);
+        List<Category> list = service.queryCategoryByBid(bid);
         if (list == null || list.size() < 1) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -70,7 +76,6 @@ public class CategoryController {
         if (ids == null || ids.equals("")) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(categoryService.queryCategoryList(ids));
+        return ResponseEntity.ok(service.queryCategoryList(ids));
     }
-
 }

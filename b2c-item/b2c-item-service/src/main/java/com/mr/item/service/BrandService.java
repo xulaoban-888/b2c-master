@@ -15,14 +15,28 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.util.List;
 
+
 @Service
 public class BrandService {
     @Resource
     private BrandMapper brandMapper;
 
     //查询
-    public PageResult<Brand> queryByList(Integer page, Integer row, String searchKey, String sortBy, Boolean desc) {
 
+    /**
+     * 前台传回的参数
+     * 必传y   page:this.options.page,//分页
+     * 必传y   row:this.options.rowsPerPage,//一页显示多少条
+     * searchKey:this.search,//搜索条件
+     * sortBy:this.options.sortBy,//根据谁降序或升序
+     * desc:this.options.descending//降序或升序
+     * <p>
+     * defaultValue 默认填写的值
+     * required :必须填写的属性,默认不写, 不默认时 required = false
+     */
+    public PageResult<Brand> queryByList(Integer page, Integer row, String searchKey, String sortBy, Boolean desc) {
+        //分页 : 使用的是分页助手启动器 pagehelper ;pom.xml引入的依赖
+        //设置当前页和每页条数; limit第一个参数表示从该参数的下一条数据开始，第二个参数表示每次返回的数据条数。
         PageHelper.startPage(page, row);
 
         //过滤条件 前台搜索searchKey使用的模糊查询, 前台根据首字母sortBy排序
@@ -37,9 +51,9 @@ public class BrandService {
         }
 
         //判断前台根据首字母sortBy排序
-        if (sortBy != null && !sortBy.equals("")) {
+        if(sortBy != null && !sortBy.equals("")){
             //通过过滤条件类,设置排序
-            example.setOrderByClause(sortBy + (desc ? " asc" : " desc"));
+            example.setOrderByClause(sortBy+ (desc?" asc":" desc"));
         }
         //使用分页助手提供的类接收分页参数和实体参数
         Page<Brand> pageData = (Page<Brand>) brandMapper.selectByExample(example);

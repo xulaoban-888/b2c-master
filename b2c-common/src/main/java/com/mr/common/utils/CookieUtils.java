@@ -19,8 +19,7 @@ public final class CookieUtils {
 
 
     /**
-     * 从cookie中获得值
-     *
+     *从cookie中获得值
      * @param request
      * @param cookieName
      * @return
@@ -32,7 +31,6 @@ public final class CookieUtils {
 
     /**
      * 从cookie中获得值
-     *
      * @param request
      * @param cookieName
      * @param isDecoder
@@ -63,7 +61,6 @@ public final class CookieUtils {
 
     /**
      * 得到cookie到值 获得token
-     *
      * @param request
      * @param cookieName
      * @param encodeString
@@ -91,10 +88,9 @@ public final class CookieUtils {
 
     /**
      * 设置token到cookie 不设置生效时间默认浏览器关闭即失效,也不编码
-     *
-     * @param request     请求对象
-     * @param response    响应对象
-     * @param cookieName  cookie名称
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
      * @param cookieValue cookie值
      */
     public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue) {
@@ -104,26 +100,23 @@ public final class CookieUtils {
 
     /**
      * 设置token到 cookie 在指定时间内生效,但不编码
-     *
-     * @param request      请求对象
-     * @param response     响应对象
-     * @param cookieName   cookie名称
-     * @param cookieValue  cookie值
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
+     * @param cookieValue cookie值
      * @param cookieMaxage cookie过期时间
      */
     public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, int cookieMaxage) {
         setCookie(request, response, cookieName, cookieValue, cookieMaxage, false);
     }
 
-    /**
-     * （无过期时间）
+    /**（无过期时间）
      * 设置token到cookie
-     *
-     * @param request     请求对象
-     * @param response    响应对象
-     * @param cookieName  cookie名称
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
      * @param cookieValue cookie值
-     * @param isEncode    是否按照ut8编码
+     * @param isEncode 是否按照ut8编码
      */
     public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, boolean isEncode) {
         setCookie(request, response, cookieName, cookieValue, -1, isEncode);
@@ -132,13 +125,12 @@ public final class CookieUtils {
 
     /**
      * 设置token到cookie
-     *
-     * @param request      请求对象
-     * @param response     响应对象
-     * @param cookieName   cookie名称
-     * @param cookieValue  cookie值
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
+     * @param cookieValue cookie值
      * @param cookieMaxage cookie过期时间
-     * @param isEncode     是否按照ut8编码
+     * @param isEncode 是否按照ut8编码
      */
     public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, int cookieMaxage, boolean isEncode) {
         doSetCookie(request, response, cookieName, cookieValue, cookieMaxage, isEncode);
@@ -147,11 +139,10 @@ public final class CookieUtils {
 
     /**
      * 设置token到cookie
-     *
-     * @param request      请求对象
-     * @param response     响应对象
-     * @param cookieName   cookie名称
-     * @param cookieValue  cookie值
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
+     * @param cookieValue cookie值
      * @param cookieMaxage cookie过期时间
      * @param encodeString 自定义编码格式
      */
@@ -161,10 +152,9 @@ public final class CookieUtils {
 
 
     /**
-     * 删除Cookie
-     *
-     * @param request    请求对象
-     * @param response   响应对象
+     *删除Cookie
+     * @param request 请求对象
+     * @param response 响应对象
      * @param cookieName 名称
      */
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieName) {
@@ -173,14 +163,14 @@ public final class CookieUtils {
 
 
     /**
-     * 设置token到cookie
      *
-     * @param request      请求对象
-     * @param response     响应对象
-     * @param cookieName   cookie名称
-     * @param cookieValue  cookie值
+     * 设置token到cookie
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
+     * @param cookieValue cookie值
      * @param cookieMaxage cookie过期时间
-     * @param isEncode     是否编码
+     * @param isEncode 是否编码
      */
     private static final void doSetCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, int cookieMaxage, boolean isEncode) {
         try {
@@ -202,12 +192,12 @@ public final class CookieUtils {
     }
 
     /**
-     * 设置token到cookie
      *
-     * @param request      请求对象
-     * @param response     响应对象
-     * @param cookieName   cookie名称
-     * @param cookieValue  cookie值
+     * 设置token到cookie
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param cookieName cookie名称
+     * @param cookieValue cookie值
      * @param cookieMaxage cookie过期时间
      * @param encodeString 自定义编码格式
      */
@@ -232,7 +222,6 @@ public final class CookieUtils {
 
     /**
      * 从reques请求中获得访问者域名，
-     *
      * @param request
      * @return
      */

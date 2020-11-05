@@ -19,6 +19,12 @@ public class SpecParamService {
 
     //查询
     public List<SpecParam> querySpecParams(Long gid, Long cid, Boolean searching, Boolean generic) {
+        /*第一种方法
+        SpecParam t = new SpecParam();
+        t.setGroupId(gid);
+        return this.specParamMapper.select(t);*/
+
+        //第二种方法; 根据分类查詢规模组
         //创建过滤条件类
         Example example = new Example(SpecParam.class);
 

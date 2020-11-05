@@ -12,10 +12,23 @@
     <artifactId>b2c-item-interface</artifactId>
 
     <dependencies>
+        <!--jpa依赖或者实体类@Table注解依赖-->
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <!--webMvc依赖:指的是注解Getmapping等常用注解-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <!--引入工具类-->
+        <dependency>
+            <groupId>com.mr.common</groupId>
+            <artifactId>b2c-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

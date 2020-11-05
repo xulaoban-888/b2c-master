@@ -28,4 +28,7 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
 logging: #debug模式
   level:
-   com.mr.item.mapper: debug
+    com.mr.item.mapper: debug
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000

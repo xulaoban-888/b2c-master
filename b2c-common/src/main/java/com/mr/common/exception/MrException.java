@@ -5,6 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @ClassName MrException
+ * @Description: TODO
+ * @Author xujincheng
+ * @Date 2020/7/15
+ * @Version V1.0
+ **/
 
 @Getter//get方法
 @AllArgsConstructor//有参构造函数

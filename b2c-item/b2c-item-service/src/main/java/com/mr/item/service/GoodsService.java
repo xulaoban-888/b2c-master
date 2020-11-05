@@ -13,6 +13,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
@@ -108,54 +109,48 @@ public class GoodsService {
     /**
      * 商品增加
      */
-    public void saveGoods(SpuBo spuBo) {
-        //除了要对SPU新增以外，还要对SpuDetail、Sku、Stock进行保存
-        Date now = new Date();
+    //保存spu
+    @Transactional
+    public void saveGoods(SpuBo bo) {
         Spu spu = new Spu();
-        //通过工具类,复制对象中的属性值,第一个是要复制的属性,第二个是目标属性
-        BeanUtils.copyProperties(spuBo, spu);
-        spu.setValid(true);
+        //保存spu
+        BeanUtils.copyProperties(bo, spu);
+        Date now = new Date();
         spu.setSaleable(true);
+        spu.setValid(true);
         spu.setCreateTime(now);
         spu.setLastUpdateTime(now);
-        //spu保存数据库
         spuMapper.insert(spu);
-        //获得SpuDetail的数据保存数据库 根据实体获得对应的数据
-        SpuDetail spuDetail = spuBo.getSpuDetail();
+        //保存spu详情
+        SpuDetail spuDetail = bo.getSpuDetail();
         spuDetail.setSpuId(spu.getId());
         spuDetailMapper.insert(spuDetail);
 
-        //rabbitmq消息生产者
+        //库存
+        List<Sku> skuList = bo.getSkus();
 
+        this.saveSkus(skuList, spu.getId());
 
-        //调用增加sku stock 公共类或公共方法
-        this.saveSkuAndStock(spuBo.getSkus(), spu.getId());
+    }
 
-        //amqpTemplate 发送一个消息 指定：交换机名称， routingkey(方法) 参数
-        this.sendMessage(MqMessageConstant.SPU_EXCHANGE_NAME, MqMessageConstant.SPU_ROUT_KEY_SAVE, spu.getId());
-        //this.amqpTemplate.convertAndSend(MqMessageConstant.SPU_EXCHANGE_NAME,MqMessageConstant.SPU_ROUT_KEY_SAVE,spu.getId());
-        System.out.println("增加");
+    //保存sku
+    public void saveSkus(List<Sku> skuList, Long spuId) {
 
-        //保存Sku集合
-      /*  List<Sku> skuList = spuBo.getSkus();
-        //循环集合保存数据库sku和Stock
-        //因为一个sku对应一个库存,所以要保存库存
+        Date now = new Date();
         skuList.forEach(sku -> {
-            if(sku.getEnable()) {//Enable:是否有效
-                //根据实体sku获得对应的数据,保存
-                sku.setSpuId(spu.getId());
+            if (sku.getEnable()) {
+                //保存sku
+                sku.setSpuId(spuId);
                 sku.setCreateTime(now);
                 sku.setLastUpdateTime(now);
                 skuMapper.insert(sku);
-
-                //根据实体Stock获得对应的数据
+                //保存库存
                 Stock stock = new Stock();
                 stock.setSkuId(sku.getId());
                 stock.setStock(sku.getStock());
                 stockMapper.insert(stock);
             }
-        });*/
-
+        });
     }
 
     /**

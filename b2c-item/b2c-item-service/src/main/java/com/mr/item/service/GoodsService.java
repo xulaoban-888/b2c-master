@@ -166,7 +166,6 @@ public class GoodsService {
     public List<Sku> querySku(Long spuId) {
         //创建过滤条件类  第-种方法;
         /*Example example = new Example(Sku.class);
-
         //通过过滤条件类,构建实例,字段和参数相等
         example.createCriteria().andEqualTo("spuId",spuId);
         //设置条件查询 查询sku表
@@ -353,18 +352,14 @@ public class GoodsService {
         spuBo.setCreateTime(null);
         spuBo.setLastUpdateTime(new Date());
         spuMapper.updateByPrimaryKeySelective(spuBo);
-
         //保存spuDetail详情
         spuBo.getSpuDetail().setSpuId(spuBo.getId());
         spuDetailMapper.updateByPrimaryKeySelective(spuBo.getSpuDetail());
-
         //因为sku和stock表是多项的存在条数变更，所以先删后增，确保不出现废数据
         deleteSkuAndStock(spuBo.getId());
-
         //增加sku和stock表
         saveSkuAndStock(spuBo.getSkus(),spuBo.getId());
     }
-
     //删除sku和stock公用方法
     public void deleteSkuAndStock(Long id){
         //因为stock表通过id删除需要通过sku表查询id所以要先删除stock表
@@ -378,7 +373,6 @@ public class GoodsService {
         //删除sku表
         skuMapper.deleteByExample(example);
     }
-
     //保存sku和stock公用方法
     public void saveSkuAndStock(List<Sku> skuList,Long spuId){
         for(Sku sku : skuList) {
@@ -390,7 +384,6 @@ public class GoodsService {
             sku.setCreateTime(new Date());
             sku.setLastUpdateTime(sku.getCreateTime());
             skuMapper.insertSelective(sku);
-
             //保存stock信息
             Stock stock = new Stock();
             stock.setSkuId(sku.getId());

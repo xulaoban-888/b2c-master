@@ -15,7 +15,7 @@ eureka:
     lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
     lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
     prefer-ip-address: true # 当其它服务获取地址时提供ip而不是hostname
-    ip-address: 127.0.0.1	#ip定义死，防止拿到主机名
+    ip-address: 127.0.0.1    #ip定义死，防止拿到主机名
     instance-id: ${spring.application.name}:${server.port} #把服务注册进中心;注册名默认是“IP名:应用名:应用端口名”
 
 fdfs: #个轻量级、高性能的开源分布式文件系统,Linux集群

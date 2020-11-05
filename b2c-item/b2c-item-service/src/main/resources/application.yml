@@ -29,6 +29,3 @@ eureka:
 logging: #debug模式
   level:
     com.mr.item.mapper: debug
-ribbon:
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
